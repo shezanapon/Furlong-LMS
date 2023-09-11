@@ -33,6 +33,7 @@ import Quiz4 from "../module 4/Quiz4";
 import DriverSafety from "../module 2/DriverSafety";
 import {
   AppBar,
+  Box,
   Button,
   CssBaseline,
   Divider,
@@ -43,22 +44,24 @@ import {
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
-
+import MenuIcon from '@material-ui/icons/Menu';
 
 const drawerWidth = 280;
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
   drawer: {
-    [theme.breakpoints.up("xs")]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
+    [theme.breakpoints.up("sm")]: {
+      width: drawerWidth,
+      flexShrink: 0,
     },
   },
   appBar: {
     [theme.breakpoints.up("sm")]: {
       width: `calc(100% - ${drawerWidth}px)`,
+
       marginLeft: drawerWidth,
     },
   },
@@ -69,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
+  // toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
   },
@@ -78,6 +81,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
 }));
+
 
 export default function Main(props) {
   const { window } = props;
@@ -88,6 +92,7 @@ export default function Main(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
 
   const [history, setHistory] = React.useState(false);
   const [engage, setEngage] = React.useState(false);
@@ -120,6 +125,45 @@ export default function Main(props) {
   const [waste, setWaste] = React.useState(true);
   const [quiz4, setQuiz4] = React.useState(true);
 
+  const drawer = (
+    <div>
+      <Image height={59} src={pic} alt="" />
+      <Divider />
+      <div />
+
+      <SideBar
+        history={history}
+        setHistory={setHistory}
+        setEngage={setEngage}
+        setQuiz={setQuiz}
+        setDuty={setDuty}
+        setConduct={setConduct}
+        setWork={setWork}
+        setFatigue={setFatigue}
+        setBully={setBully}
+        setIncident={setIncident}
+        setonSite={setonSite}
+        setDriverSafety={setDriverSafety}
+        setSpace={setSpace}
+        setElectrical={setElectrical}
+        setHouseKeep={setHouseKeep}
+        setManual={setManual}
+        setProtective={setProtective}
+        setSafeWork={setSafeWork}
+        setStopWork={setStopWork}
+        setWorkHeight={setWorkHeight}
+        setQuiz2={setQuiz2}
+        setAsbestos={setAsbestos}
+        setDangerousGoods={setDangerousGoods}
+        setLead={setLead}
+        setQuiz3={setQuiz3}
+        setEnvironment={setEnvironment}
+        setWaste={setWaste}
+        setQuiz4={setQuiz4}
+      />
+    </div>
+  );
+
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
@@ -127,97 +171,63 @@ export default function Main(props) {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
-        position="fixed"
-        className={classes.appBar}
-        style={{ backgroundColor: "white", height: "63.5px" }}
+         position="fixed"
+         className={classes.appBar}
+         style={{ backgroundColor: "white" }}
       >
-        <div style={{ display: "flex", paddingTop: "10px" }}>
-          <div style={{ width: "60%" }}>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              className={classes.menuButton}
-            >
-             
-            </IconButton>
-            <Typography
-              style={{
-                fontSize: "15px",
-                color: "black",
-                fontWeight: "bold",
-                marginLeft: "20px",
-                paddingLeft: "20px",
-              }}
-              className={classes.title}
-            >
-              Furlong Painting Contractor Induction Program
-            </Typography>
-          </div>
-          <div style={{ textAlign: "right", width: "30%" }}>
-            <Button
-              style={{
-                backgroundColor: "#106786",
-                color: "white",
-                textAlign: "right",
-              }}
-            >
-              {" "}
-              <SaveIcon />
-              SAVE
-            </Button>
-          </div>
-        </div>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
+          >
+            <MenuIcon style={{ color: "#106786" }} />
+          </IconButton>
+
+          <Box
+            variant="h6"
+            noWrap
+           
+            style={{
+              color: "black",
+              
+            }}
+          >
+            Furlong Painting Contractor Induction Program
+          </Box>
+        
+        </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden xsDown implementation="css">
+        <Hidden smUp implementation="css">
           <Drawer
             container={container}
+            variant="temporary"
+            anchor={theme.direction === "rtl" ? "right" : "left"}
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+        <Hidden xsDown implementation="css">
+          <Drawer
             classes={{
               paper: classes.drawerPaper,
             }}
             variant="permanent"
             open
           >
-            <div>
-              <Image src={pic} height={"59"} alt="" />
-            </div>
-
-            {/* <Toolbar /> */}
-
-            <Divider />
-            <SideBar
-              history={history}
-              setHistory={setHistory}
-              setEngage={setEngage}
-              setQuiz={setQuiz}
-              setDuty={setDuty}
-              setConduct={setConduct}
-              setWork={setWork}
-              setFatigue={setFatigue}
-              setBully={setBully}
-              setIncident={setIncident}
-              setonSite={setonSite}
-              setDriverSafety={setDriverSafety}
-              setSpace={setSpace}
-              setElectrical={setElectrical}
-              setHouseKeep={setHouseKeep}
-              setManual={setManual}
-              setProtective={setProtective}
-              setSafeWork={setSafeWork}
-              setStopWork={setStopWork}
-              setWorkHeight={setWorkHeight}
-              setQuiz2={setQuiz2}
-              setAsbestos={setAsbestos}
-              setDangerousGoods={setDangerousGoods}
-              setLead={setLead}
-              setQuiz3={setQuiz3}
-              setEnvironment={setEnvironment}
-              setWaste={setWaste}
-              setQuiz4={setQuiz4}
-            />
+            {drawer}
           </Drawer>
         </Hidden>
       </nav>
