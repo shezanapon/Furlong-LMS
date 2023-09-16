@@ -208,7 +208,7 @@ export default function Quiz2() {
               {steps.map((step, index) => {
                 return (
                   <>
-                  <Step>
+                  <Step key={index}>
                     <StepButton color="inherit" onClick={handleStep(index)}>
                       {step}
                     </StepButton>

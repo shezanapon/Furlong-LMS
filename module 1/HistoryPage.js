@@ -12,8 +12,10 @@ const HistoryPage = () => {
   return (
     <Box>
       {isLoading && (
-        <div style={{ textAlign: "center" }}>
+        <div >
+          <center>
           <CircularProgress />
+          </center>
         </div>
       )}
       <div style={{ width: "100%", overflow: "hidden", paddingTop: "56.25%" }}>
@@ -32,7 +34,7 @@ const HistoryPage = () => {
           src="https://docs.google.com/document/d/e/2PACX-1vT1EFSDwjq2Sl-JkBLhfGnvMKLLx3JaAhMY86eQDAHTNrsqiq9mg1nYY-4DKa5EU6eP_4NJEYduG-Ix/pub?embedded=true"
         ></iframe>
       </div>
-      {/* <iframe src="https://docs.google.com/document/d/e/2PACX-1vT1EFSDwjq2Sl-JkBLhfGnvMKLLx3JaAhMY86eQDAHTNrsqiq9mg1nYY-4DKa5EU6eP_4NJEYduG-Ix/pub?embedded=true"></iframe> */}
+     
     </Box>
   );
 };

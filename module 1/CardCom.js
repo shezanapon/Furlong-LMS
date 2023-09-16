@@ -33,6 +33,7 @@ const CardCom = () => {
               <CardMedia>
                 <Image
                   src={img1}
+                  alt=""
                   objectFit="contain" // or objectFit="cover"
                 />
               </CardMedia>
@@ -72,6 +73,7 @@ const CardCom = () => {
               <CardMedia>
                 <Image
                   src={img2}
+                  alt=""
                   objectFit="contain" // or objectFit="cover"
                 />
               </CardMedia>
@@ -111,6 +113,7 @@ const CardCom = () => {
               <CardMedia>
                 <Image
                   src={img3}
+                  alt=""
                   objectFit="contain" // or objectFit="cover"
                 />
               </CardMedia>
