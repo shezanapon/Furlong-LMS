@@ -3,7 +3,7 @@ import resData from './Data';
 
 const Bar = () => {
 //    const data=resData;
-   console.log("sh",resData);
+  //  console.log("sh",resData);
     return (
         <div>
            {resData.map((step) => {
