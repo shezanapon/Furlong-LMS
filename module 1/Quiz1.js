@@ -3,8 +3,12 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Button,
   Card,
   CardContent,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
   Typography,
   makeStyles,
 } from "@material-ui/core";
@@ -66,22 +70,38 @@ const Quiz1 = ({ option }) => {
             <Card variant="outlined">
                 <CardContent>
                 {
-                option?.quiz.map((data)=>{
-                    
+                option?.quiz?.slice(activeQuestion, activeQuestion+1).map((data, index)=>{
+                    console.log("Mah",data);
                     return(
-                        <>
+                        <div key={index}>
 <Typography variant="h5">
-                        Question {data?.questionNumber}/7
+
+                        Question {data?.questionNumber}
                     </Typography>
+                    <br/>
                     <Typography>
-                        {data.question}
+                        {data?.question}
                     </Typography>
-                        </>
+                    <br/>
+                      {
+                        data.choices.map((item)=>{
+                         return (
+                          <>
+                           <RadioGroup>
+                            <FormControlLabel value={index} control={<Radio />} label={item} />
+                            </RadioGroup>
+                          </>
+                         )
+                        })
+                      }
+                        </div>
                     )})
             }
                 </CardContent>
 
             </Card>
+            <Button variant="contained" size="small" onClick={()=>{setActiveQuestion(pre=>pre-1)}}>Previous</Button>
+            <Button variant="contained" size="small" onClick={()=>{setActiveQuestion(pre=>pre+1)}}>Next</Button>
 
           </Box>
         </AccordionDetails>
