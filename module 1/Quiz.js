@@ -1,341 +1,207 @@
-import * as React from "react";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { withStyles } from "@material-ui/core/styles";
-import Dialog from "@material-ui/core/Dialog";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogActions from "@material-ui/core/DialogActions";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-
-import { useForm } from "react-hook-form";
-
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState } from "react";
+// import { quiz } from "./QuizData";
 import {
   Box,
   Button,
-  Container,
-  Divider,
+  Card,
+  CardContent,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  FormControl,
+  FormControlLabel,
   Grid,
-  Step,
-  StepButton,
-  Stepper,
+  Radio,
+  RadioGroup,
+  Typography,
 } from "@material-ui/core";
-import Q1 from "./quiz1questions/Q1";
-import Q2 from "./quiz1questions/Q2";
-import Q3 from "./quiz1questions/Q3";
-import Q4 from "./quiz1questions/Q4";
-import Q5 from "./quiz1questions/Q5";
-import Q6 from "./quiz1questions/Q6";
-import Q7 from "./quiz1questions/Q7";
+// import '../styles/globals.css';
+const Quiz = ({ option }) => {
+  const [activeQuestion, setActiveQuestion] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState("");
+  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
+  const [result, setResult] = useState({
+    score: 0,
+    correctAnswers: 0,
+    wrongAnswers: 0,
+  });
+  // {
+  //   option.map((data)=>{ })
+  // }
+  // console.log("shezan",option);
+  const quiz=option.quiz;
+  const { questions } = quiz;
+  const { question, choices, correctAnswer } = questions[activeQuestion];
 
-const styles = (theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(2),
-  },
-  closeButton: {
-    position: "absolute",
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  },
-});
+  const onClickNext = () => {
+    // again reset the selectedAnwerIndex, so it won't effect next question
+    setActiveButton(null);
+    setSelectedAnswerIndex(null);
+    setActiveQuestion((prev) => prev + 1);
+    setResult((prev) =>
+      selectedAnswer
+        ? {
+            ...prev,
+            score: prev.score + 1,
+            correctAnswers: prev.correctAnswers + 1,
+          }
+        : { ...prev, wrongAnswers: prev.wrongAnswers + 1 }
+    );
+  };
 
-const DialogTitle = withStyles(styles)((props) => {
-  const { children, classes, onClose, ...other } = props;
-  return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          className={classes.closeButton}
-          onClick={onClose}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </MuiDialogTitle>
-  );
-});
+  const onAnswerSelected = (answer, index) => {
+    setActiveButton(index);
+    setSelectedAnswerIndex(index);
+    if (answer === correctAnswer) {
+      setSelectedAnswer(true);
+    } else {
+      setSelectedAnswer(false);
+    }
+  };
 
-const DialogContent = withStyles((theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiDialogContent);
-
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions);
-
-const stepStyle = {
-  "&.MuiStepIcon-root": {
-    fontSize: "3rem",
-  },
-
-  "& .MuiStepConnector-line": {
-    borderTopWidth: 3,
-    borderRadius: 1,
-  },
-  "& .Mui-active": {
-    borderTopWidth: 3,
-    borderRadius: 1,
-
-    "&.MuiStepIcon-root": {
-      color: "#2f9eec",
-      fontSize: "1.9rem",
-      borderStyle: "solid",
-      borderColor: "white",
-      borderWidth: "4px",
-      borderRadius: "50%",
-      boxShadow: "0 0 0 2px #2f9eec",
-    },
-  },
-};
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
-  },
-}));
-
-export default function Quiz() {
+  const addLeadingZero = (number) => (number > 9 ? number : `0${number}`);
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
+setResultShow(true);
+    setResult((prev) =>
+    selectedAnswer
+      ? {
+          ...prev,
+          score: prev.score + 1,
+          correctAnswers: prev.correctAnswers + 1,
+        }
+      : { ...prev, wrongAnswers: prev.wrongAnswers + 1 }
+  );
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
-  const classes = useStyles();
+  // const [bgColor, setBgColor] = useState("#000033");
+  // const changeColor =()=>{
+     
+  //    setBgColor("#005D7E");
+  //  }
+  const [activeButton, setActiveButton] = useState(null)
 
-  function getSteps() {
-    return ["1", "2", "3", "4", "5", "6", "7"];
-  }
-  function getStepContent(step, setValue) {
-    switch (step) {
-      case 0:
-        return <Q1 control={control} />;
-      case 1:
-        return <Q2 control={control} />;
-      case 2:
-        return <Q3 control={control} />;
-      case 3:
-        return <Q4 control={control} />;
-      case 4:
-        return <Q5 control={control} />;
-      case 5:
-        return <Q6 control={control} />;
-      case 6:
-        return <Q7 control={control} setValue={setValue} />;
+  const [value, setValue] = React.useState('female');
 
-      default:
-        return "unknown";
-    }
-  }
-  const steps = getSteps();
-  const { handleSubmit, setValue, control } = useForm({});
-  const handleFinalSubmit = (data) => {
-    console.log(data);
+  const handleChange = (event) => {
+    setValue(event.target.value);
   };
-
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [completed, setCompleted] = React.useState({});
-
-  const totalSteps = () => {
-    return steps.length;
-  };
-
-  const completedSteps = () => {
-    return Object.keys(completed).length;
-  };
-
-  const isLastStep = () => {
-    return activeStep === totalSteps() - 1;
-  };
-
-  const allStepsCompleted = () => {
-    return completedSteps() === totalSteps();
-  };
-
-  const handleNext = () => {
-    const newActiveStep =
-      isLastStep() && !allStepsCompleted()
-        ? // It's the last step, but not all steps have been completed,
-          // find the first step that has been completed
-          steps.findIndex((step, i) => !(i in completed))
-        : activeStep + 1;
-    setActiveStep(newActiveStep);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleStep = (step) => () => {
-    setActiveStep(step);
-  };
-
-  const [expanded, setExpanded] = React.useState("panel1");
-
-  const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : true);
-  };
-
+  const [resultShow,setResultShow]=useState(false);
   return (
-    <Box p={4}>
-      <Dialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-      >
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Response
-        </DialogTitle>
-        <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
-            ac consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-            auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-            cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-            dui. Donec ullamcorper nulla non metus auctor fringilla.
-          </Typography>
-        </DialogContent>
-      </Dialog>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>Quiz Settings</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <br />
-      <Accordion
-        style={{ borderRadius: "8px" }}
-        expanded={expanded === "panel2"}
-        onChange={handleChange("panel2")}
-      >
-        <AccordionSummary
-          aria-controls="panel2d-content"
-          id="panel2d-header"
-          expandIcon={<ExpandMoreIcon />}
-        >
-          <Typography>Questions</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <>
-            <Grid>
-              <Grid>
-                <Typography style={{ fontWeight: "bold" }}>
-                  {" "}
-                  Questions
+    <>{!resultShow?(
+    <div style={{ paddingTop: "100px" }}>
+      <Card variant="outlined" style={{maxWidth:"1000px"}}>
+        <CardContent>
+          <div>
+            <Typography style={{ fontWeight: "bold" }}>
+              <span className="active-question-no">
+                Question: {addLeadingZero(activeQuestion + 1)}/
+              </span>
+              <span className="total-question">
+                {addLeadingZero(questions.length)}
+              </span>
+            </Typography>
+          </div>
+          <Typography style={{ paddingTop: "50px", fontWeight:"bold",fontSize:"17px" }}>{question}</Typography>
+          <ul>
+            {choices.map((answer, index) => (
+              <>
+              <Grid xs={12}>
+              {/* <Button
+                style={{
+                  backgroundColor: activeButton === index ? '#005D7E': '#000033',
+                  width: "500px",
+                  marginBottom: "10px",
+                  marginRight: "20px",
+                }}
+                onClick={() => onAnswerSelected(answer, index)}
+                key={answer}
+                // className={selectedAnswerIndex === index ? 'selected-answer' : null}
+              >
+                <Typography style={{ color: "white", fontSize: "13px" }}>
+                  {answer}
                 </Typography>
+              </Button> */}
+              <FormControl component="fieldset">
+      
+      <RadioGroup aria-label="gender" name={index} value={value} onChange={handleChange}>
+        <FormControlLabel value={answer}control={<Radio />} onClick={() => onAnswerSelected(answer, index)} label={answer}/>
+        
+      </RadioGroup>
+    </FormControl>
               </Grid>
+              </>
+            ))}
+          </ul>
 
-              <br />
-              <Divider />
-              <br />
-              <Stepper activeStep={activeStep} sx={stepStyle}>
-                {steps.map((step, index) => {
-                  return (
-                    <>
-                      <Step key={index}>
-                        <StepButton color="inherit" onClick={handleStep(index)}>
-                          {step}
-                        </StepButton>
-                      </Step>
-                    </>
-                  );
-                })}
-              </Stepper>
-              <br />
-              <Grid>
-                <form
-                  onSubmit={handleSubmit((data) => handleFinalSubmit(data))}
-                >
-                  <>
-                    {getStepContent(activeStep)}
-                    <br />
-                    <Container sx={{ marginTop: "20px" }} maxWidth={"md"}>
-                      <Box sx={{ flexGrow: 1 }}>
-                        <Grid container spacing={2}>
-                          <Grid xs={6}>
-                            {activeStep === 0 ? null : (
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleBack}
-                              >
-                                Back
-                              </Button>
-                            )}
-                          </Grid>
-                          <Grid xs={6} style={{ textAlign: "right" }}>
-                            {activeStep === 6 ? null : (
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleNext}
-                              >
-                                NEXT
-                              </Button>
-                            )}
+          <Grid xs={8} >
+            {/* <Button variant='contained' onClick={onClickNext} disabled={selectedAnswerIndex === null}>
+              {activeQuestion === questions.length - 1 ? 'Finish' : 'Next'}
+            </Button> */}
+            {activeQuestion === questions.length - 1 ? null : (
+              <Button
+                variant="contained"
+                onClick={onClickNext}
+                disabled={selectedAnswerIndex === null}
+              >
+                NEXT
+              </Button>
+            )}
 
-                            {activeStep === 6 ? (
-                              <Button
-                                onClick={handleClickOpen}
-                                variant="contained"
-                                color="secondary"
-                                type="submit"
-                              >
-                                SUBMIT
-                              </Button>
-                            ) : null}
-                          </Grid>
-                        </Grid>
-                      </Box>
-                    </Container>
-                  </>
-                </form>
-              </Grid>
-            </Grid>
-          </>
-        </AccordionDetails>
-      </Accordion>
-      <br />
-      <Typography variant="h5">Explanation:</Typography>
-      <Typography variant="body2" sx={{ color: "#000000" }}>
-        No explanation Available
-      </Typography>
-    </Box>
+            {activeQuestion === questions.length - 1 ? (
+              <Button
+                variant="contained"
+                color="secondary"
+                type="submit"
+                disabled={selectedAnswerIndex === null}
+                onClick={handleClickOpen}
+              >
+                SUBMIT
+              </Button>
+            ) : null}
+          </Grid>
+          {/* {console.log("Total Question:",questions.length,"Correct Answers:",result.correctAnswers)} */}
+        </CardContent>
+      </Card>
+     
+    </div>
+    ):(
+      <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+      
+      
+    >
+      <DialogContent >
+        <DialogContentText id="alert-dialog-description">
+          <Box style={{backgroundColor:"#ef5350",width:"300px",borderRadius:"15px",marginBottom:"20px"}}><h3 style={{fontWeight:"bold",color:"white",padding:"15px 15px 15px 115px"}}>Result</h3></Box>
+          <Box style={{backgroundColor:"#005D7E",width:"300px",borderRadius:"15px",marginBottom:"20px"}}>
+            <Typography style={{color:"white",padding:"15px 15px 15px 75px"}}>Total Question: <span>{questions.length}</span></Typography>
+          </Box>
+          <Box style={{backgroundColor:"#005D7E",width:"300px",borderRadius:"15px",marginBottom:"20px"}}>
+          <Typography style={{color:"white",padding:"15px 15px 15px 75px"}}>Total Score:<span> {result.score}</span></Typography> 
+          </Box>
+          {/* {console.log(result.score)} */}
+          <Box style={{backgroundColor:"#005D7E",width:"300px",borderRadius:"15px",marginBottom:"20px"}}>
+          <Typography style={{color:"white",padding:"15px 15px 15px 75px"}}>Correct Answers:<span> {result.correctAnswers}</span></Typography> 
+          </Box>
+          <Box style={{backgroundColor:"#005D7E",width:"300px",borderRadius:"15px",marginBottom:"20px"}}>
+          <Typography style={{color:"white",padding:"15px 15px 15px 75px"}}>Wrong Answers:<span> {result.wrongAnswers}</span></Typography>
+          </Box>
+        </DialogContentText>
+      </DialogContent>
+    </Dialog>
+
+    )}
+    </>
   );
-}
+};
+
+export default Quiz;

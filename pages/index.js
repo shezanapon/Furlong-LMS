@@ -49,7 +49,7 @@ export default function Home() {
                   <Image
                     src={img1}
                     alt=""
-                    objectFit="contain" // or objectFit="cover"
+                    objectFit="contain" 
                   />
                 </CardMedia>
                 <CardContent>

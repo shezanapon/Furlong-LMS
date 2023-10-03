@@ -19,7 +19,7 @@ import {
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import Quiz1 from "../../module 1/Quiz1";
+import Quiz from "../../module 1/Quiz";
 
 const drawerWidth = 280;
 
@@ -58,6 +58,8 @@ const useStyles = makeStyles((theme) => ({
 // const state=proxy({});
 
 export default function Main(props) {
+  // console.log({ color });
+
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -67,7 +69,10 @@ export default function Main(props) {
     setMobileOpen(!mobileOpen);
   };
 
-  const [option, setOption] = React.useState(null);
+  const [option, setOption] = React.useState({
+    name: "Conditions of Engagement",
+    url: "https://writer.zohopublic.com/writer/published/0byhd02a3dd33a12e46098c2004068c6c917b?mode=embed",
+  });
   const [data, setData] = React.useState(null);
 
   const container =
@@ -81,6 +86,7 @@ export default function Main(props) {
   const handleOption = (data) => {
     setOption(data);
     setData(data.url);
+
   };
 
   return (
@@ -89,7 +95,7 @@ export default function Main(props) {
       <AppBar
         position="fixed"
         className={classes.appBar}
-        style={{ backgroundColor: "white" }}
+        style={{ backgroundColor: "#106786" }}
       >
         <Toolbar>
           <IconButton
@@ -99,14 +105,14 @@ export default function Main(props) {
             onClick={handleDrawerToggle}
             className={classes.menuButton}
           >
-            <MenuIcon style={{ color: "#106786" }} />
+            <MenuIcon style={{ color: "white" }} />
           </IconButton>
 
           <Box
             variant="h6"
             noWrap
             style={{
-              color: "black",
+              color: "white",
             }}
           >
             Furlong Painting Contractor Induction Program
@@ -129,6 +135,7 @@ export default function Main(props) {
             ModalProps={{
               keepMounted: true, // Better open performance on mobile.
             }}
+            style={{ width: drawerWidth }} 
           >
             <div>
               <Image height={59} src={pic} alt="" />
@@ -146,12 +153,12 @@ export default function Main(props) {
             }}
             variant="permanent"
             open
+            style={{ width: drawerWidth }} 
           >
             <div>
               <Image height={59} src={pic} alt="" />
               <Divider />
               <div />
-
               <SideBar handleOption={handleOption} />
             </div>
           </Drawer>
@@ -186,8 +193,36 @@ export default function Main(props) {
               src={option?.url}
             ></iframe>
           </div>
+        ) : option?.quiz ? (
+          <Quiz option={option} />
         ) : (
-          <Quiz1 option={option} sty />
+          <div
+            style={{ width: "100%", overflow: "hidden", paddingTop: "56.25%" }}
+          >
+            {isLoading && (
+              <div>
+                <center>
+                  <CircularProgress />
+                </center>
+              </div>
+            )}
+            <iframe
+              style={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                width: "100%",
+                height: "100%",
+                border: "none",
+              }}
+              onLoad={handleIframeLoad}
+              frameborder="0"
+              scrolling="yes"
+              src={
+                "https://writer.zohopublic.com/writer/published/0byhd02a3dd33a12e46098c2004068c6c917b?mode=embed"
+              }
+            ></iframe>
+          </div>
         )}
       </main>
     </div>
