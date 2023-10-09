@@ -1,9 +1,6 @@
 import * as React from "react";
-import PropTypes from "prop-types";
 import Image from "next/image";
 import pic from "../../public/Furlong Painting Logo.png";
-import SideBar from "../../module 1/SideBar";
-
 import {
   AppBar,
   Box,
@@ -20,6 +17,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Quiz from "../../module 1/Quiz";
+import SideBarForContractor from "../../module 1/SideBarForContractor";
 
 const drawerWidth = 280;
 
@@ -54,12 +52,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
 }));
-
-
-export default function Main(props) {
-
-
-  const { window } = props;
+const ContractorInductionProgram = (props) => {
+    const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -141,7 +135,7 @@ export default function Main(props) {
               <Divider />
               <div />
 
-              <SideBar handleOption={handleOption} />
+              <SideBarForContractor handleOption={handleOption} />
             </div>
           </Drawer>
         </Hidden>
@@ -158,7 +152,7 @@ export default function Main(props) {
               <Image height={59} src={pic} alt="" />
               <Divider />
               <div />
-              <SideBar handleOption={handleOption} />
+              <SideBarForContractor handleOption={handleOption} />
             </div>
           </Drawer>
         </Hidden>
@@ -227,6 +221,7 @@ export default function Main(props) {
     </div>
   );
 }
-Main.propTypes = {
-  window: PropTypes.func,
-};
+
+
+
+export default ContractorInductionProgram;

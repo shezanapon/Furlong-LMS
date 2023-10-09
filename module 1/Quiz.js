@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import { quiz } from "./QuizData";
 import {
   Box,
   Button,
@@ -15,7 +14,7 @@ import {
   RadioGroup,
   Typography,
 } from "@material-ui/core";
-// import '../styles/globals.css';
+
 const Quiz = ({ option }) => {
   const [activeQuestion, setActiveQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
@@ -25,10 +24,7 @@ const Quiz = ({ option }) => {
     correctAnswers: 0,
     wrongAnswers: 0,
   });
-  // {
-  //   option.map((data)=>{ })
-  // }
-  // console.log("shezan",option);
+  
   const quiz=option.quiz;
   const { questions } = quiz;
   const { question, choices, correctAnswer } = questions[activeQuestion];
@@ -79,11 +75,7 @@ setResultShow(true);
   const handleClose = () => {
     setOpen(false);
   };
-  // const [bgColor, setBgColor] = useState("#000033");
-  // const changeColor =()=>{
-     
-  //    setBgColor("#005D7E");
-  //  }
+
   const [activeButton, setActiveButton] = useState(null)
 
   const [value, setValue] = React.useState('female');
@@ -112,21 +104,7 @@ setResultShow(true);
             {choices.map((answer, index) => (
               <>
               <Grid xs={12}>
-              {/* <Button
-                style={{
-                  backgroundColor: activeButton === index ? '#005D7E': '#000033',
-                  width: "500px",
-                  marginBottom: "10px",
-                  marginRight: "20px",
-                }}
-                onClick={() => onAnswerSelected(answer, index)}
-                key={answer}
-                // className={selectedAnswerIndex === index ? 'selected-answer' : null}
-              >
-                <Typography style={{ color: "white", fontSize: "13px" }}>
-                  {answer}
-                </Typography>
-              </Button> */}
+             
               <FormControl component="fieldset">
       
       <RadioGroup aria-label="gender" name={index} value={value} onChange={handleChange}>
@@ -140,9 +118,7 @@ setResultShow(true);
           </ul>
 
           <Grid xs={8} >
-            {/* <Button variant='contained' onClick={onClickNext} disabled={selectedAnswerIndex === null}>
-              {activeQuestion === questions.length - 1 ? 'Finish' : 'Next'}
-            </Button> */}
+           
             {activeQuestion === questions.length - 1 ? null : (
               <Button
                 variant="contained"
@@ -165,7 +141,7 @@ setResultShow(true);
               </Button>
             ) : null}
           </Grid>
-          {/* {console.log("Total Question:",questions.length,"Correct Answers:",result.correctAnswers)} */}
+          
         </CardContent>
       </Card>
      
@@ -188,7 +164,7 @@ setResultShow(true);
           <Box style={{backgroundColor:"#005D7E",width:"300px",borderRadius:"15px",marginBottom:"20px"}}>
           <Typography style={{color:"white",padding:"15px 15px 15px 75px"}}>Total Score:<span> {result.score}</span></Typography> 
           </Box>
-          {/* {console.log(result.score)} */}
+        
           <Box style={{backgroundColor:"#005D7E",width:"300px",borderRadius:"15px",marginBottom:"20px"}}>
           <Typography style={{color:"white",padding:"15px 15px 15px 75px"}}>Correct Answers:<span> {result.correctAnswers}</span></Typography> 
           </Box>

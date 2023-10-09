@@ -55,29 +55,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const AccordionSummary = styled((props) => (
-//   <MuiAccordionSummary
-//     expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
-//     {...props}
-//   />
-// ))(({ theme }) => ({
-//   backgroundColor:
-//     theme.palette.mode === "dark"
-//       ? "rgba(255, 255, 255, .05)"
-//       : "rgba(0, 0, 0, .03)",
-//   flexDirection: "row-reverse",
-//   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-//     transform: "rotate(90deg)",
-//   },
-//   "& .MuiAccordionSummary-content": {
-//     marginLeft: theme.spacing(1),
-//   },
-// }));
-
-// const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-//   padding: theme.spacing(2),
-//   borderTop: "1px solid rgba(0, 0, 0, .125)",
-// }));
 
 export default function Quiz2() {
   const classes = useStyles();
@@ -140,8 +117,7 @@ export default function Quiz2() {
   const handleNext = () => {
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
-        ? // It's the last step, but not all steps have been completed,
-          // find the first step that has been completed
+        ? 
           steps.findIndex((step, i) => !(i in completed))
         : activeStep + 1;
     setActiveStep(newActiveStep);
@@ -229,13 +205,7 @@ export default function Quiz2() {
                       <Grid xs={6}>
                         {activeStep === 0 ? null : (
                           <Button
-                            // sx={{
-                            //   bgcolor: "#494949",
-                            //   color: "white",
-                            //   "&:hover": {
-                            //     background: "#494949",
-                            //   },
-                            // }}
+                           
                             onClick={handleBack}
                             variant="contained" color="primary"
                           >
@@ -246,15 +216,7 @@ export default function Quiz2() {
                       <Grid xs={6} style={{ textAlign: "right" }}>
                         {activeStep === 8 ? null : (
                           <Button
-                            // sx={{
-                            //   mr: 1,
-                            //   bgcolor: "#494949",
-                            //   color: "white",
-                            //   width: "30px",
-                            //   "&:hover": {
-                            //     background: "#494949",
-                            //   },
-                            // }}
+                           
                             onClick={handleNext}
                             variant="contained" color="primary"
                           >
@@ -263,15 +225,7 @@ export default function Quiz2() {
                         )}
                         {activeStep === 8 ? (
                           <Button
-                            // sx={{
-                            //   mr: 1,
-                            //   bgcolor: "#494949",
-                            //   color: "white",
-                            //   width: "30px",
-                            //   "&:hover": {
-                            //     background: "#494949",
-                            //   },
-                            // }}
+                          
                             variant="contained" color="secondary"
                             type="submit"
                           >
